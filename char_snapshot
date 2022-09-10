@@ -1,0 +1,18 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `one_piece`.`char_snapshot` AS
+    SELECT 
+        UPPER(`one_piece`.`characters`.`char_name`) AS `Char_name`,
+        `one_piece`.`crew`.`crew_name` AS `pirate_crew`,
+        `one_piece`.`characters`.`df` AS `df`,
+        `one_piece`.`haki`.`haki_type` AS `haki_type`,
+        `one_piece`.`power_level`.`power_level_desc` AS `power_level_desc`,
+        `one_piece`.`characters`.`bounty` AS `bounty`
+    FROM
+        (((`one_piece`.`characters`
+        JOIN `one_piece`.`crew` ON ((`one_piece`.`characters`.`crew_id` = `one_piece`.`crew`.`crew_id`)))
+        JOIN `one_piece`.`power_level` ON ((`one_piece`.`characters`.`power_level_id` = `one_piece`.`power_level`.`power_level_id`)))
+        JOIN `one_piece`.`haki` ON ((`one_piece`.`characters`.`haki_num` = `one_piece`.`haki`.`haki_num`)))
+    ORDER BY `one_piece`.`characters`.`bounty` DESC
